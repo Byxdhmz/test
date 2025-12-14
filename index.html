@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>欢迎来到阅读世界</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            color: white;
+            padding: 40px;
+            max-width: 800px;
+            width: 90%;
+        }
+
+        .welcome-section {
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .welcome-message {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .sub-welcome {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .time-section {
+            margin-bottom: 50px;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .time-display {
+            font-size: 4rem;
+            font-weight: 200;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .date-display {
+            font-size: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .reading-entry {
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .entry-button {
+            display: inline-block;
+            padding: 18px 50px;
+            font-size: 1.3rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .entry-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+        }
+
+        .user-name {
+            font-weight: 500;
+            color: #ffd700;
+        }
+
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .floating-element {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .welcome-message {
+                font-size: 2.5rem;
+            }
+            
+            .time-display {
+                font-size: 3rem;
+            }
+            
+            .date-display {
+                font-size: 1.2rem;
+            }
+            
+            .entry-button {
+                padding: 15px 40px;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation">
+        <div class="floating-element" style="width: 80px; height: 80px; top: 20%; left: 10%; animation-delay: 0s;"></div>
+        <div class="floating-element" style="width: 120px; height: 120px; top: 60%; right: 15%; animation-delay: 2s;"></div>
+        <div class="floating-element" style="width: 60px; height: 60px; bottom: 20%; left: 20%; animation-delay: 4s;"></div>
+    </div>
+
+    <div class="container">
+        <div class="welcome-section">
+            <h1 class="welcome-message" id="welcomeMessage">欢迎光临</h1>
+            <p class="sub-welcome">开启您的阅读之旅</p>
+        </div>
+
+        <div class="time-section">
+            <div class="time-display" id="timeDisplay">00:00:00</div>
+            <div class="date-display" id="dateDisplay">2024年1月1日 星期一</div>
+        </div>
+
+        <div class="reading-entry">
+            <a href="home.html" class="entry-button" id="enterButton">
+                📚 进入阅读世界
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // 获取用户姓名
+        function getUserName() {
+            const savedName = localStorage.getItem('userName');
+            if (savedName) {
+                return savedName;
+            }
+            
+            const name = prompt('请输入您的姓名：');
+            if (name && name.trim() !== '') {
+                localStorage.setItem('userName', name.trim());
+                return name.trim();
+            }
+            return '访客';
+        }
+
+        // 更新欢迎信息
+        function updateWelcomeMessage() {
+            const userName = getUserName();
+            const hour = new Date().getHours();
+            let greeting = '';
+            
+            if (hour < 6) {
+                greeting = '深夜好';
+            } else if (hour < 12) {
+                greeting = '上午好';
+            } else if (hour < 14) {
+                greeting = '中午好';
+            } else if (hour < 18) {
+                greeting = '下午好';
+            } else if (hour < 22) {
+                greeting = '晚上好';
+            } else {
+                greeting = '夜深了';
+            }
+            
+            document.getElementById('welcomeMessage').innerHTML = 
+                `${greeting}，<span class="user-name">${userName}</span>！`;
+        }
+
+        // 更新时间显示
+        function updateTime() {
+            const now = new Date();
+            
+            // 时间
+            const timeString = now.toLocaleTimeString('zh-CN', {
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            
+            // 日期
+            const dateString = now.toLocaleDateString('zh-CN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                weekday: 'long'
+            });
+            
+            document.getElementById('timeDisplay').textContent = timeString;
+            document.getElementById('dateDisplay').textContent = dateString;
+        }
+
+        // 添加进入按钮动画效果
+        function addButtonEffects() {
+            const button = document.getElementById('enterButton');
+            
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px) scale(1.05)';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+            
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // 添加点击动画
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                    // 这里可以添加页面跳转逻辑
+                    window.location.href = 'home.html';
+                }, 150);
+            });
+        }
+
+        // 添加键盘事件监听
+        function addKeyboardSupport() {
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    document.getElementById('enterButton').click();
+                }
+            });
+        }
+
+        // 初始化
+        function init() {
+            updateWelcomeMessage();
+            updateTime();
+            addButtonEffects();
+            addKeyboardSupport();
+            
+            // 每秒更新时间
+            setInterval(updateTime, 1000);
+            
+            // 添加页面加载动画
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 1s ease-in-out';
+                document.body.style.opacity = '1';
+            }, 100);
+        }
+
+        // 页面加载完成后初始化
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>
