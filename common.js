@@ -38,5 +38,5 @@ const imgs = [
 ];
 document.getElementById('bgBtn').addEventListener('dblclick', () => {
   const randomImg = imgs[Math.floor(Math.random() * imgs.length)];
-  document.body.style.background = `url(${randomImg}) no-repeat center/100% 100%`;
+  document.body.style.background = `url(${randomImg}) no-repeat center/cover fixed`;
 });
