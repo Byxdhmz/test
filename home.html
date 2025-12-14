@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>纳西妲主题小说馆</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="common.css">
+  <style>
+    /* 整体氛围：淡草绿渐变 */
+    body{
+      min-height:100vh;
+      background:linear-gradient(135deg,#e0f7e0 0%,#f5fdf5 100%);
+      font-family:"Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif;
+    }
+    h1{
+      text-align:center;
+      margin:40px 0 10px;
+      font-size:2.5rem;
+      color:#3a7d46;
+      letter-spacing:2px;
+    }
+    .sub{
+      text-align:center;
+      color:#6c9c6c;
+      margin-bottom:40px;
+    }
+
+    /* 卡片网格 */
+    .gallery{
+      display:flex;
+      flex-wrap:wrap;
+      gap:30px;
+      justify-content:center;
+      padding:0 20px 60px;
+    }
+    .card{
+      width:200px;
+      height:150px;
+      background:#fff;
+      border-radius:12px;
+      box-shadow:0 4px 16px rgba(0,0,0,.08);
+      overflow:hidden;
+      transition:transform .3s,box-shadow .3s;
+    }
+    .card:hover{
+      transform:translateY(-6px);
+      box-shadow:0 8px 30px rgba(0,0,0,.12);
+    }
+    .card-body{
+      padding:18px 20px 22px;
+    }
+    .card h3{
+      margin:0 0 8px;
+      font-size:1.25rem;
+      color:#2e7d32;
+    }
+    .card p{
+      font-size:14px;
+      color:#555;
+      line-height:1.6;
+      height:66px;          /* 固定行高，卡片对齐 */
+      overflow:hidden;
+    }
+    .card a{
+      display:inline-block;
+      margin-top:12px;
+      padding:7px 18px;
+      background:#66bb6a;
+      color:#fff;
+      border-radius:20px;
+      text-decoration:none;
+      font-size:14px;
+      transition:background .3s;
+    }
+    .card a:hover{background:#4caf50;}
+  </style>
+  
+</head>
+
+<body>
+<div class="wrapper">
+  <h1>纳西妲主题小说馆</h1>
+  <p class="sub">「小吉祥草王」的梦境与故事 · 点击卡片即刻阅读</p>
+
+  <div class="gallery">
+    <!-- 卡片1：草木逢春 -->
+<div class="card" data-href="pages/index.html"><div class="card-body">
+        <h3>第一页</h3>
+        <p>开始</p>
+      </div>
+    </div>
+
+    <!-- 卡片1：草木逢春 -->
+<div class="card" data-href="pages/2.html"><div class="card-body">
+        <h3>第二页</h3>
+        <p>穿越到纳西妲身边并开启时停</p>
+      </div>
+    </div>
+
+<div class="card" data-href="pages/3.html"><div class="card-body">
+        <h3>第三页</h3>
+        <p> 控制她脱下自己的外衣</p>
+      </div>
+    </div>
+
+<div class="card" data-href="pages/4.html"><div class="card-body">
+        <h3>第四页</h3>
+        <p>走向她并抚摸</p>
+      </div>
+    </div>
+<div class="card" data-href="pages/6.html"><div class="card-body">
+        <h3>第五页</h3>
+        <p>脱衣，触摸</p>
+      </div>
+    </div>
+
+    <!-- 卡片1：草木逢春 -->
+<div class="card" data-href="pages/7.html"><div class="card-body">
+        <h3>第六页</h3>
+        <p>吸与扣</p>
+      </div>
+    </div>
+
+<div class="card" data-href="pages/8.html"><div class="card-body">
+        <h3>第七页</h3>
+        <p> 解除时停与更改记忆</p>
+      </div>
+    </div>
+
+<div class="card" data-href="pages/9.html"><div class="card-body">
+        <h3>第八页</h3>
+        <p>走向她并抚摸</p>
+      </div>
+    </div>
+
+    <!-- 后续想加新书，直接再 copy 一份卡片改链接即可 -->
+  </div>
+  <script>
+  document.querySelectorAll('.card').forEach(c =>
+    c.addEventListener('click', () => location.assign(c.dataset.href))
+  );
+</script>
+
+</body>
+</html>
+
