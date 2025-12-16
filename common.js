@@ -64,10 +64,10 @@ document.getElementById('refresh')?.addEventListener('click', () => {
 
 /* 3. 双击换背景 ========================================================= */
 const imgs = [
-  '../img/1.jpg',
-  '../img/2.png',
-  '../img/3.webp',
-  '..img/4.webp'
+  '../img/01.jpg',
+  '../img/02.png',
+  '../img/03.webp',
+  '..img/04.webp'
 ];
 const bgBtn = document.getElementById('bgBtn');
 bgBtn?.addEventListener('dblclick', () => {
