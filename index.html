@@ -19,6 +19,7 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            position: relative;
         }
 
         .container {
@@ -80,6 +81,7 @@
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
             box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
         }
 
         .entry-button:hover {
@@ -89,9 +91,28 @@
             box-shadow: 0 12px 40px rgba(0,0,0,0.2);
         }
 
-        .user-name {
-            font-weight: 500;
+        .extra-links {
+            margin-top: 20px;
+        }
+
+        .extra-links a {
             color: #ffd700;
+            margin: 0 15px;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .extra-links a:hover {
+            color: #fff;
+        }
+
+        .version {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
         }
 
         .background-animation {
@@ -152,6 +173,9 @@
     </style>
 </head>
 <body>
+<!-- 在 </body> 前引入 -->
+<script src="version.js"></script>
+
     <div class="background-animation">
         <div class="floating-element" style="width: 80px; height: 80px; top: 20%; left: 10%; animation-delay: 0s;"></div>
         <div class="floating-element" style="width: 120px; height: 120px; top: 60%; right: 15%; animation-delay: 2s;"></div>
@@ -160,7 +184,7 @@
 
     <div class="container">
         <div class="welcome-section">
-            <h1 class="welcome-message" id="welcomeMessage">欢迎光临</h1>
+            <h1 class="welcome-message">欢迎光临阅读世界</h1>
             <p class="sub-welcome">开启您的阅读之旅</p>
         </div>
 
@@ -170,57 +194,23 @@
         </div>
 
         <div class="reading-entry">
-            <a href="home.html" class="entry-button" id="enterButton">
+            <a href="book-selection.html" class="entry-button" id="enterButton">
                 📚 进入阅读世界
             </a>
+            <div class="extra-links">
+                <a href="updates.html">更新内容</a>
+                <a href="links.html">常用网站</a>
+            </div>
         </div>
     </div>
 
+    <div class="version"></div>
+
     <script>
-        // 获取用户姓名
-        function getUserName() {
-            const savedName = localStorage.getItem('userName');
-            if (savedName) {
-                return savedName;
-            }
-            
-            const name = prompt('请输入您的姓名：');
-            if (name && name.trim() !== '') {
-                localStorage.setItem('userName', name.trim());
-                return name.trim();
-            }
-            return '访客';
-        }
-
-        // 更新欢迎信息
-        function updateWelcomeMessage() {
-            const userName = getUserName();
-            const hour = new Date().getHours();
-            let greeting = '';
-            
-            if (hour < 6) {
-                greeting = '深夜好';
-            } else if (hour < 12) {
-                greeting = '上午好';
-            } else if (hour < 14) {
-                greeting = '中午好';
-            } else if (hour < 18) {
-                greeting = '下午好';
-            } else if (hour < 22) {
-                greeting = '晚上好';
-            } else {
-                greeting = '夜深了';
-            }
-            
-            document.getElementById('welcomeMessage').innerHTML = 
-                `${greeting}，<span class="user-name">${userName}</span>！`;
-        }
-
         // 更新时间显示
         function updateTime() {
             const now = new Date();
             
-            // 时间
             const timeString = now.toLocaleTimeString('zh-CN', {
                 hour12: false,
                 hour: '2-digit',
@@ -228,7 +218,6 @@
                 second: '2-digit'
             });
             
-            // 日期
             const dateString = now.toLocaleDateString('zh-CN', {
                 year: 'numeric',
                 month: 'long',
@@ -240,7 +229,7 @@
             document.getElementById('dateDisplay').textContent = dateString;
         }
 
-        // 添加进入按钮动画效果
+        // 添加按钮动画效果
         function addButtonEffects() {
             const button = document.getElementById('enterButton');
             
@@ -251,40 +240,15 @@
             button.addEventListener('mouseleave', function() {
                 this.style.transform = 'translateY(0) scale(1)';
             });
-            
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // 添加点击动画
-                this.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    this.style.transform = 'scale(1)';
-                    // 这里可以添加页面跳转逻辑
-                    window.location.href = 'home.html';
-                }, 150);
-            });
-        }
-
-        // 添加键盘事件监听
-        function addKeyboardSupport() {
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    document.getElementById('enterButton').click();
-                }
-            });
         }
 
         // 初始化
         function init() {
-            updateWelcomeMessage();
             updateTime();
             addButtonEffects();
-            addKeyboardSupport();
             
-            // 每秒更新时间
             setInterval(updateTime, 1000);
             
-            // 添加页面加载动画
             document.body.style.opacity = '0';
             setTimeout(() => {
                 document.body.style.transition = 'opacity 1s ease-in-out';
@@ -292,7 +256,6 @@
             }, 100);
         }
 
-        // 页面加载完成后初始化
         window.addEventListener('load', init);
     </script>
 </body>
