@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>选择阅读书籍</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+            min-height: 100vh;
+            padding: 40px;
+            position: relative;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .book-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .book-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .book-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .book-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .book-desc {
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        .version {
+            position: fixed;
+            bottom: 10px;
+            right: 15px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            text-align: center;
+            width: 100%;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>📚 请选择您要阅读的书籍</h1>
+
+    <div class="book-list">
+        <a href="book1.html" class="book-item">
+            <div class="book-title">楚云湛的冒险故事</div>
+            <div class="book-desc"></div>
+        </a>
+        <a href="book2.html" class="book-item">
+            <div class="book-title"></div>
+            <div class="book-desc"></div>
+        </a>
+        <a href="book3.html" class="book-item">
+            <div class="book-title"></div>
+            <div class="book-desc"></div>
+        </a>
+        <a href="book4.html" class="book-item">
+            <div class="book-title"></div>
+            <div class="book-desc"></div>
+        </a>
+    </div>
+
+    <a href="index.html" class="back-link">← 返回首页</a>
+
+    <div class="version">版本号：v1.0.0</div>
+
+</body>
+</html>

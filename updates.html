@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>更新内容</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            padding: 40px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .update-item {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .update-version {
+            font-weight: bold;
+            color: #007acc;
+        }
+
+        .update-date {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #007acc;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .version {
+            position: fixed;
+            bottom: 10px;
+            right: 15px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>📌 更新内容</h1>
+
+    <div class="update-item">
+        <div class="update-version">v1.0.0</div>
+        <div class="update-date">2025年12月17日</div>
+        <ul>
+            <li>初始版本发布</li>
+            <li>包含欢迎界面、时间显示、书籍选择功能</li>
+            <li>新增更新内容和常用网站入口</li>
+        </ul>
+    </div>
+
+    <a href="index.html" class="back-link">← 返回首页</a>
+<!-- 在 </body> 前引入 -->
+<script src="version.js"></script>
+
+    <div class="version"></div>
+
+</body>
+</html>
