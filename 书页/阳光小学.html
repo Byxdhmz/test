@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>阳光小学 · 图书目录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+          --grad: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+        }
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        body {
+          font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+          background: var(--grad);
+          min-height: 100vh;
+          padding: 40px 20px;
+          color: #333;
+        }
+        h1 {
+          text-align: center;
+          margin-bottom: 40px;
+          font-weight: 300;
+          font-size: 2.5rem;
+          text-shadow: 1px 1px 2px rgba(0, 0, 0, .2);
+        }
+        .catalog {
+          max-width: 800px;
+          margin: 0 auto;
+          display: grid;
+          gap: 20px;
+        }
+        .book-card {
+          background: rgba(255, 255, 255, .85);
+          border-radius: 12px;
+          padding: 20px 25px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
+          transition: transform .3s;
+        }
+        .book-card:hover {
+          transform: translateY(-4px);
+        }
+        .book-title {
+          font-size: 1.4rem;
+          margin-bottom: 8px;
+          color: #e17055;
+        }
+        .book-chapters {
+          margin-left: 20px;
+          font-size: .95rem;
+          line-height: 1.8;
+        }
+        .book-chapters li {
+          list-style: disc;
+        }
+        .book-chapters a {
+          color: inherit;
+          text-decoration: none;
+        }
+        .book-chapters a:hover {
+          color: #d63031;
+        }
+        .home-link {
+          display: block;
+          width: 120px;
+          margin: 40px auto 0;
+          text-align: center;
+          background: #fff;
+          color: #e17055;
+          padding: 10px 0;
+          border-radius: 25px;
+          text-decoration: none;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
+          transition: .3s;
+        }
+        .home-link:hover {
+          background: #ffeaa7;
+          color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>📚 阳光小学系列图书</h1>
+
+    <div class="catalog">
+        <!-- 图书 1 -->
+        <div class="book-card">
+            <div class="book-title">《阳光小学中的怪声》</div>
+            <ul class="book-chapters">
+                <li><a href="../book/book3/1.html" target="_blank">第0章 你的信息及新的开始</a></li>
+                <li><a href="../book/book3/2.html" target="_blank">第1章 色色的老师</a></li>
+                <li><a href="../book/book3/3.html" target="_blank">第2章 神秘的游戏</a></li>
+                <li><a href="../book/book3/4.html" target="_blank">第3章 舔舔舔</a></li>
+                <li><a href="../book/book3/5.html" target="_blank">第4章 更激烈的玩耍</a></li>
+            </ul>
+        </div>
+
+        <!-- 图书 2 -->
+        <div class="book-card">
+            <div class="book-title">《阳光小学的奇怪校规》</div>
+            <ul class="book-chapters">
+                <li><a href="../book/book3/6.html" target="_blank">第0章 你的信息及新的开始</a></li>
+                <li><a href="../book/book3/7.html" target="_blank">第1章 上学的路</a></li>
+                <li><a href="../book/book3/8.html" target="_blank">第2章 初到学校</a></li>
+                <li><a href="../book/book3/9.html" target="_blank">第3章 男主林小天</a></li>
+                <li><a href="../book/book3/10.html" target="_blank">第4章 刺激的一周</a></li>
+            </ul>
+        </div>
+    </div>
+    <script src="../version.js"></script>
+    <div class="version"></div>
+    <!-- 返回首页 -->
+    <a class="home-link" href="../book-selection-another.html">返回首页</a>
+</body>
+
+</html>
