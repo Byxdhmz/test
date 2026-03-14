@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>选择阅读书籍🔞</title>
+    <title>隐藏小功能</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
@@ -18,13 +19,13 @@
             padding: 40px;
             position: relative;
         }
-
+        
         h1 {
             text-align: center;
             margin-bottom: 40px;
             color: #333;
         }
-
+        
         .book-list {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -32,7 +33,7 @@
             max-width: 800px;
             margin: 0 auto;
         }
-
+        
         .book-item {
             background: white;
             padding: 20px;
@@ -44,30 +45,23 @@
             text-decoration: none;
             color: #333;
         }
-
+        
         .book-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 6px 20px rgba(0,0,0,0.15);
         }
-
+        
         .book-title {
             font-size: 1.2rem;
             margin-bottom: 10px;
         }
-
+        
         .book-desc {
             font-size: 0.95rem;
             color: #666;
         }
-
-        .version {
-            position: fixed;
-            bottom: 10px;
-            right: 15px;
-            color: #888;
-            font-size: 0.9rem;
-        }
-
+        
+        
         .back-link {
             display: inline-block;
             margin-top: 40px;
@@ -77,38 +71,44 @@
             text-decoration: none;
             font-size: 1rem;
         }
-
+        
         .back-link:hover {
             text-decoration: underline;
         }
     </style>
 </head>
-<body>
 
-    <h1>📚 请选择您要阅读的书籍</h1>
+<body>
+<script src="version.js"></script>
+    <h1>📚 一些隐藏小玩意</h1>
 
     <div class="book-list">
         <a href="书页/纳西妲.html" class="book-item">
             <div class="book-title">纳西妲</div>
             <div class="book-desc">和纳西妲有关的小说</div>
         </a>
-        <a href="book2.html" class="book-item">
-            <div class="book-title">《小王子》</div>
-            <div class="book-desc">一部关于爱与责任的童话故事</div>
+        <a href="书页/阳光小学.html" class="book-item">
+            <div class="book-title">阳光小学</div>
+            <div class="book-desc">平凡的小学里发生着不平凡的事</div>
         </a>
-        <a href="book3.html" class="book-item">
-            <div class="book-title">《百年孤独》</div>
-            <div class="book-desc">马尔克斯的魔幻现实主义巨作。</div>
+        <a href="书页/ybss.html" class="book-item">
+            <div class="book-title">写真专区</div>
+            <div class="book-desc">各色写真</div>
         </a>
-        <a href="book4.html" class="book-item">
-            <div class="book-title">《三体》</div>
-            <div class="book-desc">刘慈欣的科幻小说，探索宇宙文明。</div>
+        <a href="书页/video.html" class="book-item">
+            <div class="book-title">视频</div>
+            <div class="book-desc">神秘小视频</div>
+        </a>
+        <a href="书页/eh.html" class="book-item">
+            <div class="book-title">e站doujinshi</div>
+            <div class="book-desc">同人图片</div>
         </a>
     </div>
 
     <a href="index.html" class="back-link">← 返回首页</a>
 
-    <div class="version">版本号：v1.0.0</div>
+    <div class="version"></div>
 
 </body>
+
 </html>
