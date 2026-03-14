@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>视频库</title>
+    <link rel="stylesheet" href="../common.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            padding: 20px;
+        }
+
+        /* 头部控制栏 */
+        .header {
+            max-width: 1400px;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 24px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .shuffle-btn {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .shuffle-btn:hover {
+            background: #45a049;
+            transform: scale(1.05);
+        }
+
+        .reset-btn {
+            background: #2196F3;
+            color: white;
+        }
+
+        .reset-btn:hover {
+            background: #1976D2;
+        }
+
+        /* 卡片样式 */
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .card .thumbnail {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .card .thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .card:hover .thumbnail img {
+            transform: scale(1.05);
+        }
+
+        /* 播放按钮 */
+        .play-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.9;
+            transition: all 0.3s;
+        }
+
+        .play-overlay::after {
+            content: '▶';
+            font-size: 24px;
+            color: #333;
+            margin-left: 5px;
+        }
+
+        .card:hover .play-overlay {
+            transform: translate(-50%, -50%) scale(1.1);
+            background: #ff4444;
+        }
+
+        .card:hover .play-overlay::after {
+            color: white;
+        }
+
+        .card footer {
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .card .meta {
+            padding: 0 15px 15px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* 弹窗样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.95);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-content {
+            position: relative;
+            margin: 3% auto;
+            width: 90%;
+            max-width: 1000px;
+        }
+
+        .modal iframe {
+            width: 100%;
+            height: 550px;
+            border: none;
+            border-radius: 12px;
+        }
+
+        .close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            color: #fff;
+            font-size: 40px;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .close:hover {
+            background: rgba(255,255,255,0.2);
+            transform: rotate(90deg);
+        }
+
+        .modal-title {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .modal iframe { height: 250px; }
+            .video-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 头部控制栏 -->
+    <div class="header">
+        <h1>🎬 视频库  <span style="color: red;">(需加速器)</span></h1>
+        <div class="controls">
+            <button class="shuffle-btn" onclick="shuffleAndRender()">
+                🔀 再次随机
+            </button>
+            <button class="reset-btn" onclick="resetOrder()">
+                📋 恢复原始顺序
+            </button>
+        </div>
+    </div>
+
+    <!-- 视频网格 -->
+    <div class="video-grid" id="videoGrid"></div>
+
+    <!-- 播放弹窗 -->
+    <div id="videoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeVideo()">&times;</span>
+            <div class="modal-title" id="modalTitle">视频标题</div>
+            <iframe id="videoFrame" src="" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <script>
+        // ==================== 原始视频数据 ====================
+        const originalVideos = [
+            {
+                id: 1,
+                title: "我的室友忘了一些东西......差点被抓住😰_奶油般的高潮",
+                thumbnail: "../thumb/a我的室友忘了一些东西......差点被抓住😰_奶油般的高潮.jpg",
+                type: "iframe",
+                url: "https://www.pornhub.com/embed/68427c20971b1"
+            },
+            
+            {
+                id: 2,
+                title: "粉嫩白丝00后人间极品这必须得内射",
+                thumbnail: "../thumb/aChinese_Schoolgirl_get_Creampie_after_Class_粉嫩白丝00后人间极品这必须得内射_-_Pornhub.com_master.mp4.jpg",
+                type: "iframe",
+                url: "https://www.pornhub.com/embed/648bb506dd8c8"
+            },
+        
+            {
+                id: 3,
+                title: "無毛騷水龍頭_M字型張開腳噴水_亞洲_混血_女孩_噴",
+                thumbnail: "../thumb/a無毛騷水龍頭_M字型張開腳噴水_亞洲_混血_女孩_噴.png",
+                type: "iframe",
+                url: "https://www.pornhub.com/embed/ph63637d7e4482f"
+            },
+            
+            {
+                id: 4,
+                title: "少女放学后自摸柔软的浦西大声高潮淫叫🥵",
+                thumbnail: "../thumb/a少女放学后自摸柔软的浦西大声高潮淫叫🥵.jpg",
+                type: "iframe",
+                url: "https://www.pornhub.com/embed/6704a62b7e7ee"
+            },
+                        
+            {
+                id: 5,
+                title: "我喜欢抠这个阴户感觉真好",
+                thumbnail: "../thumb/a我喜欢抠这个阴户感觉真好.jpg",
+                type: "iframe",
+                url: "https://www.pornhub.com/embed/6707df6fd8bba"
+            },
+                                    
+            {
+                id: 6,
+                title: "放学后她揉着枕头阴道里流出了太多精液能射这么多精液吗",
+                thumbnail: "../thumb/a放学后她揉着枕头阴道里流出了太多精液能射这么多精液吗_-_Pornhub.com_master.jpg",
+                type: "iframe",
+                url: "https://www.pornhub.com/embed/66ba1d7c9f407"
+            },
+            
+            {
+                id: 7,
+                title: "【未删减】身材丰满的白人美女穿着内衣裤揉搓自慰♡_即使隔着内裤感觉也太爽了..._连续尿尿高潮",
+                thumbnail: "../thumb/a【未删减】身材丰满的白人美女穿着内衣裤揉搓自慰♡_即使隔着内裤感觉也太爽了..._连续尿尿高潮_-_Pornhub.com_master.jpg",
+                type: "iframe",
+                url: "https://www.pornhub.com/embed/68933bda84628"
+            },
+                                    
+            {
+                id: 8,
+                title: "百褶裙最方便啦_拨开内裤就行啦_嘿嘿",
+                thumbnail: "../thumb/a百褶裙最方便啦_拨开内裤就行啦_嘿嘿_-_.jpg",
+                type: "iframe",
+                url: "https://www.pornhub.com/embed/67e69ea854736"
+            },
+            
+            {
+                id: 9,
+                title: "转发1",
+                thumbnail: "../thumb/转发永久保存_9d20868f41984d588723b6b62900c6b6.png",
+                url: "../video/转发永久保存_9d20868f41984d588723b6b62900c6b6.mp4"
+            },
+            {
+                id: 10,
+                title: "转发2",
+                thumbnail: "../thumb/转发永久保存_1756984306_pMMsnA98D7TS.png",
+                url: "../video/转发永久保存_1756984306_pMMsnA98D7TS.mp4"
+            },
+            
+            {
+                id: 11,
+                title: "裸舞",
+                thumbnail: "../thumb/裸舞.png",
+                url: "../video/裸舞.mp4"
+            },
+                                    
+            {
+                id: 12,
+                title: "爆插白虎美女水嫩多汁年轻就是好",
+                thumbnail: "../thumb/a爆插白虎美女水嫩多汁年轻就是好_-_Pornhub.com_master.mp4.jpg",
+                type: "iframe",
+                url: "https://www.pornhub.com/embed/66f69c701f0cc"
+            },
+                                    
+            {
+                id: 13,
+                title: "害羞的熟女被隔着内裤挑逗后从后面插入",
+                thumbnail: "../thumb/a害羞的熟女被隔着内裤挑逗后从后面插入_–_精液射在屁股上_-_Pornhub.com_master (1).jpg",
+                type: "iframe",
+                url: "https://www.pornhub.com/embed/688b0ec655dff"
+            },
+            
+            {
+                id: 14,
+                title: "白丝学妹没穿内衣",
+                thumbnail: "../thumb/白丝学妹没穿内裤.jpg",
+                url: "../video/白丝学妹没穿内裤.mp4"
+            },
+                                    
+            {
+                id: 15,
+                title: "服指间搓阴蒂自慰",
+                thumbnail: "../thumb/a更多yp25.cc_服指间搓阴蒂自慰.jpg",
+                type: "iframe",
+                url: "https://www.pornhub.com/embed/64abf2d827c4d"
+            }
+        
+        
+            // 继续添加更多视频...
+        ];
+
+        // ==================== Fisher-Yates 洗牌算法 ====================
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        // ==================== 渲染视频卡片 ====================
+        function renderVideos(videosToRender) {
+            const grid = document.getElementById('videoGrid');
+            grid.innerHTML = '';
+
+            videosToRender.forEach((video, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.style.animationDelay = `${index * 0.05}s`;
+                card.onclick = () => openVideo(video);
+                
+                card.innerHTML = `
+                    <div class="thumbnail">
+                        <img src="${video.thumbnail}" alt="${video.title}" 
+                             onerror="this.src='https://via.placeholder.com/300x170?text=Video+${video.id}'">
+                        <div class="play-overlay"></div>
+                    </div>
+                    <footer>${video.title}</footer>`;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        // ==================== 随机排列并渲染 ====================
+        function shuffleAndRender() {
+            const shuffled = shuffleArray(originalVideos);
+            renderVideos(shuffled);
+        }
+
+        // ==================== 恢复原始顺序 ====================
+        function resetOrder() {
+            renderVideos(originalVideos);
+        }
+
+        // ==================== 播放控制 ====================
+        function openVideo(video) {
+            const modal = document.getElementById('videoModal');
+            const iframe = document.getElementById('videoFrame');
+            const title = document.getElementById('modalTitle');
+            
+            title.textContent = video.title;
+            
+            let finalUrl;
+            switch(video.type) {
+                case 'iframe':
+                    finalUrl = video.url;
+                    break;
+                case 'local':
+                    finalUrl = `player.html?video=${encodeURIComponent(video.url)}&title=${encodeURIComponent(video.title)}`;
+                    break;
+                case 'video':
+                    finalUrl = createVideoPage(video.url);
+                    break;
+                default:
+                    finalUrl = video.url;
+            }
+            
+            iframe.src = finalUrl;
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeVideo() {
+            const modal = document.getElementById('videoModal');
+            const iframe = document.getElementById('videoFrame');
+            
+            iframe.src = '';
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function createVideoPage(videoUrl) {
+            const html = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <style>
+                        * { margin: 0; padding: 0; }
+                        body { background: #000; display: flex; justify-content: center; align-items: center; height: 100vh; }
+                        video { width: 100%; height: 100%; max-height: 100vh; }
+                    </style>
+                </head>
+                <body>
+                    <video controls autoplay>
+                        <source src="${videoUrl}" type="video/mp4">
+                    </video>
+                </body>
+                </html>
+            `;
+            const blob = new Blob([html], { type: 'text/html' });
+            return URL.createObjectURL(blob);
+        }
+
+        // ==================== 事件监听 ====================
+        document.getElementById('videoModal').addEventListener('click', function(e) {
+            if (e.target === this) closeVideo();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeVideo();
+        });
+
+        // ==================== 页面加载时自动随机排列 ====================
+        window.onload = function() {
+            shuffleAndRender();
+        };
+    </script>
+
+</body>
+</html>
