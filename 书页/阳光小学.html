@@ -1,121 +1,201 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>阳光小学 · 图书目录</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../common.css">
     <style>
+        /* 页面专属样式 - 阳光小学暖色调 */
         :root {
-          --grad: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            --sun-orange: #e17055;
+            --sun-yellow: #ffeaa7;
         }
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
+
+        [data-theme="dark"] {
+            --sun-orange: #fab1a0;
+            --sun-yellow: rgba(225, 112, 85, 0.2);
         }
-        body {
-          font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-          background: var(--grad);
-          min-height: 100vh;
-          padding: 40px 20px;
-          color: #333;
+
+        .main-content {
+            margin-top: 56px;
+            min-height: calc(100vh - 56px);
+            padding: 24px 16px;
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            transition: all 0.3s;
         }
-        h1 {
-          text-align: center;
-          margin-bottom: 40px;
-          font-weight: 300;
-          font-size: 2.5rem;
-          text-shadow: 1px 1px 2px rgba(0, 0, 0, .2);
+
+        [data-theme="dark"] .main-content {
+            background: linear-gradient(135deg, #3d2817 0%, #2d1f1f 100%);
         }
+
+        .sun-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .sun-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #d63031;
+            margin-bottom: 8px;
+        }
+
+        [data-theme="dark"] .sun-title {
+            color: #fab1a0;
+        }
+
+        .sun-sub {
+            color: #e17055;
+            font-size: 0.9rem;
+        }
+
+        [data-theme="dark"] .sun-sub {
+            color: #ffeaa7;
+        }
+
         .catalog {
-          max-width: 800px;
-          margin: 0 auto;
-          display: grid;
-          gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
+
         .book-card {
-          background: rgba(255, 255, 255, .85);
-          border-radius: 12px;
-          padding: 20px 25px;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
-          transition: transform .3s;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            transition: all 0.2s;
         }
+
+        .book-card:active {
+            transform: scale(0.99);
+        }
+
         .book-card:hover {
-          transform: translateY(-4px);
+            border-color: var(--sun-orange);
+            box-shadow: var(--shadow-lg);
         }
+
         .book-title {
-          font-size: 1.4rem;
-          margin-bottom: 8px;
-          color: #e17055;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--sun-orange);
+            margin-bottom: 12px;
         }
+
         .book-chapters {
-          margin-left: 20px;
-          font-size: .95rem;
-          line-height: 1.8;
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
+
         .book-chapters li {
-          list-style: disc;
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+            border-bottom: 1px solid var(--border);
         }
+
+        .book-chapters li:last-child {
+            border-bottom: none;
+        }
+
+        .book-chapters li::before {
+            content: '•';
+            position: absolute;
+            left: 6px;
+            color: var(--sun-orange);
+            font-weight: bold;
+        }
+
         .book-chapters a {
-          color: inherit;
-          text-decoration: none;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
         }
+
         .book-chapters a:hover {
-          color: #d63031;
+            color: var(--sun-orange);
         }
-        .home-link {
-          display: block;
-          width: 120px;
-          margin: 40px auto 0;
-          text-align: center;
-          background: #fff;
-          color: #e17055;
-          padding: 10px 0;
-          border-radius: 25px;
-          text-decoration: none;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
-          transition: .3s;
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 32px auto 0;
+            padding: 12px 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+            box-shadow: var(--shadow);
         }
-        .home-link:hover {
-          background: #ffeaa7;
-          color: #fff;
+
+        .back-btn:active {
+            transform: scale(0.98);
+        }
+
+        @media (min-width: 768px) {
+            .main-content {
+                margin-top: 64px;
+                min-height: calc(100vh - 64px);
+                padding: 40px 24px;
+            }
+
+            .sun-title {
+                font-size: 2rem;
+            }
+
+            .book-card {
+                padding: 24px;
+            }
         }
     </style>
 </head>
-
 <body>
-    <h1>📚 阳光小学系列图书</h1>
-
-    <div class="catalog">
-        <!-- 图书 1 -->
-        <div class="book-card">
-            <div class="book-title">《阳光小学中的怪声》</div>
-            <ul class="book-chapters">
-                <li><a href="../book/book3/1.html" target="_blank">第0章 你的信息及新的开始</a></li>
-                <li><a href="../book/book3/2.html" target="_blank">第1章 色色的老师</a></li>
-                <li><a href="../book/book3/3.html" target="_blank">第2章 神秘的游戏</a></li>
-                <li><a href="../book/book3/4.html" target="_blank">第3章 舔舔舔</a></li>
-                <li><a href="../book/book3/5.html" target="_blank">第4章 更激烈的玩耍</a></li>
-            </ul>
+    <!-- 主内容 -->
+    <main class="main-content" id="mainContent">
+        <div class="sun-header">
+            <h1 class="sun-title">📚 阳光小学系列图书</h1>
+            <p class="sun-sub">平凡的小学里发生着不平凡的事</p>
         </div>
 
-        <!-- 图书 2 -->
-        <div class="book-card">
-            <div class="book-title">《阳光小学的奇怪校规》</div>
-            <ul class="book-chapters">
-                <li><a href="../book/book3/6.html" target="_blank">第0章 你的信息及新的开始</a></li>
-                <li><a href="../book/book3/7.html" target="_blank">第1章 上学的路</a></li>
-                <li><a href="../book/book3/8.html" target="_blank">第2章 初到学校</a></li>
-                <li><a href="../book/book3/9.html" target="_blank">第3章 男主林小天</a></li>
-                <li><a href="../book/book3/10.html" target="_blank">第4章 刺激的一周</a></li>
-            </ul>
+        <div class="catalog">
+            <div class="book-card">
+                <div class="book-title">《阳光小学中的怪声》</div>
+                <ul class="book-chapters">
+                    <li><a href="../book/book3/1.html">第0章 你的信息及新的开始</a></li>
+                    <li><a href="../book/book3/2.html">第1章 色色的老师</a></li>
+                    <li><a href="../book/book3/3.html">第2章 神秘的游戏</a></li>
+                    <li><a href="../book/book3/4.html">第3章 舔舔舔</a></li>
+                    <li><a href="../book/book3/5.html">第4章 更激烈的玩耍</a></li>
+                </ul>
+            </div>
+
+            <div class="book-card">
+                <div class="book-title">《阳光小学的奇怪校规》</div>
+                <ul class="book-chapters">
+                    <li><a href="../book/book3/6.html">第0章 你的信息及新的开始</a></li>
+                    <li><a href="../book/book3/7.html">第1章 上学的路</a></li>
+                    <li><a href="../book/book3/8.html">第2章 初到学校</a></li>
+                    <li><a href="../book/book3/9.html">第3章 男主林小天</a></li>
+                    <li><a href="../book/book3/10.html">第4章 刺激的一周</a></li>
+                </ul>
+            </div>
         </div>
-    </div>
+
+        <a href="../book-selection-another.html" class="back-btn">← 返回隐藏功能</a>
+    </main>
+
     <script src="../version.js"></script>
-    <div class="version"></div>
-    <!-- 返回首页 -->
-    <a class="home-link" href="../book-selection-another.html">返回首页</a>
+    <script src="../common.js"></script>
 </body>
-
 </html>
