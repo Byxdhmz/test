@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>写真列表</title>
+    <link rel="stylesheet" href="../common.css">
+    <style>
+        /* 页面专属样式 - 暖橙色调 */
+        :root {
+            --photo-orange: #e17055;
+            --photo-yellow: #ffeaa7;
+        }
+
+        [data-theme="dark"] {
+            --photo-orange: #fab1a0;
+            --photo-yellow: rgba(225, 112, 85, 0.2);
+        }
+
+        .main-content {
+            margin-top: 56px;
+            min-height: calc(100vh - 56px);
+            padding: 24px 16px;
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            transition: all 0.3s;
+        }
+
+        [data-theme="dark"] .main-content {
+            background: linear-gradient(135deg, #3d2817 0%, #2d1f1f 100%);
+        }
+
+        .photo-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .photo-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #d63031;
+            margin-bottom: 8px;
+        }
+
+        [data-theme="dark"] .photo-title {
+            color: #fab1a0;
+        }
+
+        .grid {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        @media (min-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .card:active {
+            transform: scale(0.98);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--photo-orange);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        @media (min-width: 768px) {
+            .card img {
+                height: 280px;
+            }
+        }
+
+        .card footer {
+            padding: 16px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 32px auto 0;
+            padding: 12px 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+            box-shadow: var(--shadow);
+        }
+
+        .back-btn:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+    <!-- 主内容 -->
+    <main class="main-content" id="mainContent">
+        <div class="photo-header">
+            <h1 class="photo-title">📷 写真列表</h1>
+        </div>
+
+        <div class="grid">
+            <div class="card" onclick="location.href='../book/ybss/公交车/reader.gjc.html'">
+                <img src="../book/ybss/公交车/1.jpg" alt="公交车">
+                <footer>公交车<br>共 23 页</footer>
+            </div>
+
+            <div class="card" onclick="location.href='../book/ybss/车内校服/reader.cnxf.html'">
+                <img src="../book/ybss/车内校服/1.jpg" alt="车内校服">
+                <footer>车内校服<br>共 24 页</footer>
+            </div>
+
+            <div class="card" onclick="location.href='../book/ybss/海边/reader.hb.html'">
+                <img src="../book/ybss/海边/1.jpg" alt="海边">
+                <footer>海边<br>共 28 页</footer>
+            </div>
+
+            <div class="card" onclick="location.href='../book/ybss/马路与大学楼道露出/reader.ml.html'">
+                <img src="../book/ybss/马路与大学楼道露出/1.jpg" alt="马路与大学楼道露出">
+                <footer>马路与大学楼道露出<br>共 52 页</footer>
+            </div>
+
+            <div class="card" onclick="location.href='../book/ybss/深圳校服/reader.sz.html'">
+                <img src="../book/ybss/深圳校服/1.jpg" alt="深圳校服">
+                <footer>深圳校服<br>共 33 页</footer>
+            </div>
+        </div>
+
+        <a href="../book-selection-another.html" class="back-btn">← 返回隐藏功能</a>
+    </main>
+
+    <script src="../version.js"></script>
+    <script src="../common.js"></script>
+</body>
+</html>
+
