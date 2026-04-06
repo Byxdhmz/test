@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>纳西妲主题小说馆</title>
+    <link rel="stylesheet" href="../common.css">
+    <style>
+        /* 页面专属样式 - 纳西妲主题绿色 */
+        :root {
+            --naxi-green: #4caf50;
+            --naxi-light: #e8f5e9;
+        }
+
+        [data-theme="dark"] {
+            --naxi-green: #66bb6a;
+            --naxi-light: rgba(76, 175, 80, 0.1);
+        }
+
+        .main-content {
+            margin-top: 56px;
+            min-height: calc(100vh - 56px);
+            padding: 24px 16px;
+            background: linear-gradient(135deg, #e0f7e0 0%, #f5fdf5 100%);
+            transition: all 0.3s;
+        }
+
+        [data-theme="dark"] .main-content {
+            background: linear-gradient(135deg, #1b2e1b 0%, #0f1f0f 100%);
+        }
+
+        .naxi-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .naxi-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #2e7d32;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
+        [data-theme="dark"] .naxi-title {
+            color: #66bb6a;
+        }
+
+        .naxi-sub {
+            color: #6c9c6c;
+            font-size: 0.9rem;
+        }
+
+        [data-theme="dark"] .naxi-sub {
+            color: #a5d6a7;
+        }
+
+        /* 卡片网格 */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 20px;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            transition: all 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:active {
+            transform: scale(0.98);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--naxi-green);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card h3 {
+            margin: 0 0 8px;
+            font-size: 1.1rem;
+            color: var(--naxi-green);
+            font-weight: 600;
+        }
+
+        .card p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            flex: 1;
+        }
+
+        .card-arrow {
+            margin-top: 12px;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            transition: all 0.2s;
+        }
+
+        .card:hover .card-arrow {
+            color: var(--naxi-green);
+            transform: translateX(4px);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 32px auto 0;
+            padding: 12px 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+            box-shadow: var(--shadow);
+        }
+
+        .back-btn:active {
+            transform: scale(0.98);
+        }
+
+        @media (min-width: 768px) {
+            .main-content {
+                margin-top: 64px;
+                min-height: calc(100vh - 64px);
+                padding: 40px 24px;
+            }
+
+            .naxi-title {
+                font-size: 2rem;
+            }
+
+            .card {
+                padding: 24px;
+            }
+
+            .card h3 {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景由 common.js 自动添加 -->
+    
+    <!-- 主内容 -->
+    <main class="main-content" id="mainContent">
+        <div class="naxi-header">
+            <h1 class="naxi-title">🌿 纳西妲主题小说馆</h1>
+            <p class="naxi-sub">「小吉祥草王」的梦境与故事 · 点击卡片即刻阅读</p>
+        </div>
+
+        <div class="gallery">
+            <div class="card" onclick="location.href='../book/book1/1.html'">
+                <h3>第一页</h3>
+                <p>开始</p>
+                <span class="card-arrow">→</span>
+            </div>
+
+            <div class="card" onclick="location.href='../book/book1/2.html'">
+                <h3>第二页</h3>
+                <p>穿越到纳西妲身边并开启时停</p>
+                <span class="card-arrow">→</span>
+            </div>
+
+            <div class="card" onclick="location.href='../book/book1/3.html'">
+                <h3>第三页</h3>
+                <p>控制她脱下自己的外衣</p>
+                <span class="card-arrow">→</span>
+            </div>
+
+            <div class="card" onclick="location.href='../book/book1/4.html'">
+                <h3>第四页</h3>
+                <p>走向她并抚摸</p>
+                <span class="card-arrow">→</span>
+            </div>
+
+            <div class="card" onclick="location.href='../book/book1/5.html'">
+                <h3>第五页</h3>
+                <p>脱衣，触摸</p>
+                <span class="card-arrow">→</span>
+            </div>
+
+            <div class="card" onclick="location.href='../book/book1/6.html'">
+                <h3>第六页</h3>
+                <p>吸与扣</p>
+                <span class="card-arrow">→</span>
+            </div>
+
+            <div class="card" onclick="location.href='../book/book1/7.html'">
+                <h3>第七页</h3>
+                <p>解除时停与更改记忆</p>
+                <span class="card-arrow">→</span>
+            </div>
+
+            <div class="card" onclick="location.href='../book/book1/8.html'">
+                <h3>第八页</h3>
+                <p>抱回家</p>
+                <span class="card-arrow">→</span>
+            </div>
+        </div>
+
+        <a href="../book-selection-another.html" class="back-btn">← 返回隐藏功能</a>
+    </main>
+
+    <script src="../version.js"></script>
+    <script src="../common.js"></script>
+</body>
+</html>
+
