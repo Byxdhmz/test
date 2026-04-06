@@ -2,113 +2,183 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>选择阅读书籍</title>
+    <link rel="stylesheet" href="common.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
-            min-height: 100vh;
-            padding: 40px;
-            position: relative;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 40px;
-            color: #333;
-        }
-
-        .book-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+        .books-page {
             max-width: 800px;
             margin: 0 auto;
+            padding: 20px 16px;
         }
 
-        .book-item {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        @media (min-width: 768px) {
+            .books-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+        }
+
+        .book-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px 16px;
             text-align: center;
-            transition: transform 0.3s ease;
-            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 0.2s;
             text-decoration: none;
-            color: #333;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
         }
 
-        .book-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        .book-card:active {
+            transform: scale(0.98);
+        }
+
+        .book-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .book-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(49, 130, 206, 0.1);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
         }
 
         .book-title {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
         .book-desc {
-            font-size: 0.95rem;
-            color: #666;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
         }
 
-        .version {
-            position: fixed;
-            bottom: 10px;
-            right: 15px;
-            color: #888;
-            font-size: 0.9rem;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 40px;
-            text-align: center;
-            width: 100%;
-            color: #667eea;
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 32px;
+            padding: 12px 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
             text-decoration: none;
-            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            box-shadow: var(--shadow);
         }
 
-        .back-link:hover {
-            text-decoration: underline;
+        .back-btn:active {
+            transform: scale(0.98);
+        }
+
+        @media (min-width: 768px) {
+            .books-page {
+                padding: 40px 24px;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .book-card {
+                padding: 32px 24px;
+            }
+            
+            .book-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 2.5rem;
+            }
+            
+            .book-title {
+                font-size: 1.25rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- 背景 -->
+    <div class="bg-gradient"></div>
+    <div class="bg-grid"></div>
 
-    <h1>📚 请选择您要阅读的书籍</h1>
+    <!-- 主内容 -->
+    <main class="main-content" id="mainContent" style="padding-top: 24px;">
+        <div class="books-page">
+            <div class="page-header">
+                <h1 class="page-title">📚 请选择您要阅读的书籍</h1>
+                <p class="page-subtitle">点击书籍开始阅读</p>
+            </div>
 
-    <div class="book-list">
-        <a href="书页/楚云湛.html" class="book-item">
-            <div class="book-title">楚云湛的冒险故事</div>
-            <div class="book-desc"></div>
-        </a>
-        <a href="书页/我独自升级.html" class="book-item">
-            <div class="book-title">我独自升级</div>
-            <div class="book-desc">漫画测试</div>
-        </a>
-        <a href="book3.html" class="book-item">
-            <div class="book-title"></div>
-            <div class="book-desc"></div>
-        </a>
-        <a href="book4.html" class="book-item">
-            <div class="book-title"></div>
-            <div class="book-desc"></div>
-        </a>
-    </div>
+            <div class="books-grid">
+                <a href="书页/楚云湛.html" class="book-card">
+                    <div class="book-icon">📖</div>
+                    <div class="book-title">楚云湛的冒险故事</div>
+                    <div class="book-desc">冒险小说</div>
+                </a>
 
-    <a href="index.html" class="back-link">← 返回首页</a>
+                <a href="书页/我独自升级.html" class="book-card">
+                    <div class="book-icon">📚</div>
+                    <div class="book-title">我独自升级</div>
+                    <div class="book-desc">漫画测试</div>
+                </a>
 
-    <div class="version">版本号：v1.0.0</div>
+                <a href="book3.html" class="book-card">
+                    <div class="book-icon">📕</div>
+                    <div class="book-title">敬请期待</div>
+                    <div class="book-desc">更多内容即将上线</div>
+                </a>
 
+                <a href="book4.html" class="book-card">
+                    <div class="book-icon">📗</div>
+                    <div class="book-title">敬请期待</div>
+                    <div class="book-desc">更多内容即将上线</div>
+                </a>
+            </div>
+
+            <a href="index.html" class="back-btn">← 返回首页</a>
+        </div>
+    </main>
+
+    <script src="version.js"></script>
+    <script src="common.js"></script>
 </body>
 </html>
