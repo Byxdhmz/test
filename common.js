@@ -125,7 +125,7 @@
     overlay.innerHTML = `
       <div class="bgPanel">
         <div class="panelHeader">
-          <h3>选择背景</h3>
+          <h3>选择背景，首次需加载，以后（大概）不需要</h3>
           <div id="tabBar" class="tabBar"></div>
           <div class="indicator"></div>
         </div>
