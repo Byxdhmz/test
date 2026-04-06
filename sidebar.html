@@ -1,0 +1,47 @@
+<nav class="top-nav">
+    <button class="menu-btn" id="menuBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div class="nav-title" id="pageTitle">不用想滴网页</div>
+    <div class="nav-version" id="navVersion">v2.0.0</div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-section">
+        <div class="sidebar-title">导航</div>
+        <a href="index.html" class="sidebar-item" data-page="index">🏠 首页</a>
+        <a href="book-selection.html" class="sidebar-item" data-page="book-selection">📚 阅读中心</a>
+        <a href="links.html" class="sidebar-item" data-page="links">🔗 常用网站</a>
+        <a href="updates.html" class="sidebar-item" data-page="updates">📝 更新日志</a>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <div class="sidebar-section">
+        <div class="sidebar-title">设置</div>
+        <div class="theme-toggle" id="themeToggle">
+            <span>🌙 深色模式</span>
+            <div class="toggle-switch" id="toggleSwitch"><div class="toggle-slider"></div></div>
+        </div>
+        <button class="sidebar-item" id="versionBtn">ℹ️ 版本信息</button>
+    </div>
+</aside>
+
+<div class="modal-overlay" id="versionModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-icon">ℹ️</div>
+            <div class="modal-title">版本信息</div>
+        </div>
+        <div class="modal-body">
+            <div class="modal-row"><span>当前版本</span><span id="modalVersion">v2.0.0</span></div>
+            <div class="modal-row"><span>最后更新</span><span id="updateDate">2026-03-21</span></div>
+            <div class="modal-row"><span>系统状态</span><span style="color: #4ade80;">运行正常</span></div>
+        </div>
+        <button class="modal-close" id="closeModal">关闭</button>
+    </div>
+</div>
