@@ -125,7 +125,7 @@
     overlay.innerHTML = `
       <div class="bgPanel">
         <div class="panelHeader">
-          <h3>选择背景，首次需加载，以后（大概）不需要</h3>
+          <h3>选择背景</h3>
           <div id="tabBar" class="tabBar"></div>
           <div class="indicator"></div>
         </div>
@@ -284,302 +284,91 @@
     }
   });
 })();
-// 配置
-const CONFIG = {
-    defaultTitle: '不用想滴网页',
-    pageTitles: {
-        'index.html': '不用想滴网页',
-        'book-selection.html': '阅读中心',
-        'links.html': '常用网站',
-        'updates.html': '更新日志',
-        'book-selection-another.html': '隐藏功能'
-    }
-};
 
-// 侧边栏 HTML 内容（直接内嵌，避免加载问题）
-const SIDEBAR_HTML = `
-<nav class="top-nav">
-    <button class="menu-btn" id="menuBtn">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-    <div class="nav-title" id="pageTitle">不用想滴网页</div>
-    <div class="nav-version" id="navVersion">v2.0.0</div>
-</nav>
-
-<div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-<aside class="sidebar" id="sidebar">
-    <div class="sidebar-section">
-        <div class="sidebar-title">导航</div>
-        <a href="index.html" class="sidebar-item" data-page="index">🏠 首页</a>
-        <a href="book-selection.html" class="sidebar-item" data-page="book-selection">📚 阅读中心</a>
-        <a href="links.html" class="sidebar-item" data-page="links">🔗 常用网站</a>
-        <a href="updates.html" class="sidebar-item" data-page="updates">📝 更新日志</a>
-    </div>
-
-    <div class="sidebar-divider"></div>
-
-    <div class="sidebar-section">
-        <div class="sidebar-title">设置</div>
-        <div class="theme-toggle" id="themeToggle">
-            <span>🌙 深色模式</span>
-            <div class="toggle-switch" id="toggleSwitch"><div class="toggle-slider"></div></div>
-        </div>
-        <button class="sidebar-item" id="versionBtn">ℹ️ 版本信息</button>
-    </div>
-</aside>
-
-<div class="modal-overlay" id="versionModal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <div class="modal-icon">ℹ️</div>
-            <div class="modal-title">版本信息</div>
-        </div>
-        <div class="modal-body">
-            <div class="modal-row"><span>当前版本</span><span id="modalVersion">v2.0.0</span></div>
-            <div class="modal-row"><span>最后更新</span><span id="updateDate">2026-03-21</span></div>
-            <div class="modal-row"><span>系统状态</span><span style="color: #4ade80;">运行正常</span></div>
-        </div>
-        <button class="modal-close" id="closeModal">关闭</button>
-    </div>
-</div>
-`;
-
-// 获取当前页面文件名
-function getCurrentPage() {
-    const path = window.location.pathname;
-    const filename = path.substring(path.lastIndexOf('/') + 1) || 'index.html';
-    return filename;
-}
-
-// 获取页面标题
-function getPageTitle() {
-    const currentPage = getCurrentPage();
-    return CONFIG.pageTitles[currentPage] || CONFIG.defaultTitle;
-}
-
-// 加载侧边栏（使用内嵌HTML，避免fetch问题）
-function loadSidebar() {
-    try {
-        // 检查是否已加载
-        if (document.querySelector('.top-nav')) {
-            console.log('侧边栏已存在，跳过加载');
-            initSidebarEvents();
-            initTheme();
-            loadVersion();
-            return;
-        }
-
-        // 使用内嵌HTML
-        const temp = document.createElement('div');
-        temp.innerHTML = SIDEBAR_HTML;
-        
-        const body = document.body;
-        const mainContent = document.querySelector('.main-content');
-        
-        // 获取所有侧边栏元素
-        const elements = Array.from(temp.children);
-        
-        // 插入到 main-content 之前
-        elements.forEach(el => {
-            if (mainContent) {
-                body.insertBefore(el, mainContent);
-            } else {
-                body.appendChild(el);
-            }
-        });
-        
-        // 设置当前页面标题
-        const pageTitle = document.getElementById('pageTitle');
-        if (pageTitle) pageTitle.textContent = getPageTitle();
-        
-        // 高亮当前页面
-        highlightCurrentPage();
-        
-        // 初始化
-        setTimeout(() => {
-            initSidebarEvents();
-            initTheme();
-            loadVersion();
-        }, 0);
-        
-        console.log('侧边栏加载成功，菜单项:', document.querySelectorAll('.sidebar-item[data-page]').length);
-        
-    } catch (e) {
-        console.error('加载侧边栏失败:', e);
-    }
-}
-
-// 高亮当前页面
-function highlightCurrentPage() {
-    const currentPage = getCurrentPage().replace('.html', '');
-    const items = document.querySelectorAll('.sidebar-item[data-page]');
-    items.forEach(item => {
-        if (item.dataset.page === currentPage) {
-            item.classList.add('active');
-        }
-    });
-}
-
-// 初始化侧边栏事件
-function initSidebarEvents() {
-    const menuBtn = document.getElementById('menuBtn');
-    const sidebar = document.getElementById('sidebar');
-    const sidebarOverlay = document.getElementById('sidebarOverlay');
-    const themeToggle = document.getElementById('themeToggle');
-    const versionBtn = document.getElementById('versionBtn');
-    const versionModal = document.getElementById('versionModal');
-    const closeModal = document.getElementById('closeModal');
-
-    if (menuBtn) {
-        menuBtn.onclick = function(e) {
-            e.preventDefault();
-            this.classList.toggle('active');
-            sidebar?.classList.toggle('open');
-            sidebarOverlay?.classList.toggle('active');
-        };
-    }
-
-    if (sidebarOverlay) {
-        sidebarOverlay.onclick = function() {
-            menuBtn?.classList.remove('active');
-            sidebar?.classList.remove('open');
-            this.classList.remove('active');
-        };
-    }
-
-    if (themeToggle) {
-        themeToggle.onclick = function(e) {
-            e.preventDefault();
-            toggleTheme();
-        };
-    }
-
-    if (versionBtn) {
-        versionBtn.onclick = function(e) {
-            e.preventDefault();
-            versionModal?.classList.add('active');
-            menuBtn?.classList.remove('active');
-            sidebar?.classList.remove('open');
-            sidebarOverlay?.classList.remove('active');
-        };
-    }
-
-    if (closeModal) {
-        closeModal.onclick = function() {
-            versionModal?.classList.remove('active');
-        };
-    }
-
-    if (versionModal) {
-        versionModal.onclick = function(e) {
-            if (e.target === this) this.classList.remove('active');
-        };
-    }
-
-    document.onkeydown = function(e) {
-        if (e.key === 'Escape') {
-            if (versionModal?.classList.contains('active')) {
-                versionModal.classList.remove('active');
-            } else if (sidebar?.classList.contains('open')) {
-                menuBtn?.classList.remove('active');
-                sidebar?.classList.remove('open');
-                sidebarOverlay?.classList.remove('active');
-            }
-        }
-    };
-}
+// DOM 元素
+const menuBtn = document.getElementById('menuBtn');
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+const mainContent = document.getElementById('mainContent');
+const themeToggle = document.getElementById('themeToggle');
+const toggleSwitch = document.getElementById('toggleSwitch');
+const versionBtn = document.getElementById('versionBtn');
+const versionModal = document.getElementById('versionModal');
+const closeModal = document.getElementById('closeModal');
 
 // 主题管理
 function initTheme() {
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const isDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
-    const toggleSwitch = document.getElementById('toggleSwitch');
-    const themeText = document.querySelector('#themeToggle span');
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    const themeText = themeToggle.querySelector('span');
     
-    if (isDark) {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        toggleSwitch?.classList.add('active');
-        if (themeText) themeText.textContent = '☀️ 浅色模式';
+    if (savedTheme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+        toggleSwitch.classList.add('active');
+        themeText.textContent = '☀️ 浅色模式';
     }
 }
 
 function toggleTheme() {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    const toggleSwitch = document.getElementById('toggleSwitch');
-    const themeText = document.querySelector('#themeToggle span');
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    const themeText = themeToggle.querySelector('span');
     
-    if (isDark) {
+    if (isLight) {
         document.documentElement.removeAttribute('data-theme');
-        localStorage.setItem('theme', 'light');
-        toggleSwitch?.classList.remove('active');
-        if (themeText) themeText.textContent = '🌙 深色模式';
-    } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
         localStorage.setItem('theme', 'dark');
-        toggleSwitch?.classList.add('active');
-        if (themeText) themeText.textContent = '☀️ 浅色模式';
+        toggleSwitch.classList.remove('active');
+        themeText.textContent = '🌙 深色模式';
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+        toggleSwitch.classList.add('active');
+        themeText.textContent = '☀️ 浅色模式';
     }
 }
 
-// 获取版本号
-function getVersion() {
-    if (typeof CURRENT_VERSION !== 'undefined') {
-        return CURRENT_VERSION;
-    }
-    return 'v2.0.0';
+// 侧边栏
+function toggleSidebar() {
+    menuBtn.classList.toggle('active');
+    sidebar.classList.toggle('open');
+    sidebarOverlay.classList.toggle('active');
+    if (window.innerWidth > 768) mainContent.classList.toggle('shifted');
 }
 
-// 获取最新更新日期
-async function getLatestUpdateDate() {
-    try {
-        const response = await fetch('updates.html');
-        const html = await response.text();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        
-        const firstCard = doc.querySelector('.update-item[data-date], .update-card[data-date]');
-        if (firstCard) {
-            return firstCard.getAttribute('data-date');
-        }
-        
-        const firstDate = doc.querySelector('.update-date');
-        if (firstDate) {
-            const text = firstDate.textContent;
-            const match = text.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
-            if (match) {
-                return `${match[1]}-${match[2].padStart(2, '0')}-${match[3].padStart(2, '0')}`;
-            }
-        }
-    } catch (e) {
-        console.log('无法获取更新日期:', e);
-    }
-    
-    return new Date().toISOString().split('T')[0];
+// 版本弹窗
+function openVersion() {
+    versionModal.classList.add('active');
+    toggleSidebar();
 }
 
-// 加载版本信息
-async function loadVersion() {
-    const ver = getVersion();
-    const date = await getLatestUpdateDate();
-    
-    document.querySelectorAll('#navVersion').forEach(el => {
-        if (el) el.textContent = ver;
-    });
-    
-    const modalVersion = document.getElementById('modalVersion');
-    if (modalVersion) modalVersion.textContent = ver;
-    
-    const updateDate = document.getElementById('updateDate');
-    if (updateDate) updateDate.textContent = date;
+function closeVersion() {
+    versionModal.classList.remove('active');
 }
+
+// 加载版本
+function loadVersion() {
+    const ver = typeof version !== 'undefined' ? version : 'v1.0.0';
+    document.getElementById('navVersion').textContent = ver;
+    document.getElementById('modalVersion').textContent = ver;
+    document.getElementById('updateDate').textContent = new Date().toISOString().split('T')[0];
+}
+
+// 事件监听
+menuBtn.addEventListener('click', toggleSidebar);
+sidebarOverlay.addEventListener('click', toggleSidebar);
+themeToggle.addEventListener('click', toggleTheme);
+versionBtn.addEventListener('click', openVersion);
+closeModal.addEventListener('click', closeVersion);
+versionModal.addEventListener('click', (e) => { if (e.target === versionModal) closeVersion(); });
+
+// 键盘快捷键
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        if (versionModal.classList.contains('active')) closeVersion();
+        else if (sidebar.classList.contains('open')) toggleSidebar();
+    }
+});
 
 // 初始化
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadSidebar);
-} else {
-    loadSidebar();
-}
+window.addEventListener('load', () => {
+    initTheme();
+    loadVersion();
+});
