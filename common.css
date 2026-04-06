@@ -369,12 +369,9 @@ html, body {
 
 /* 主内容 */
 .main-content {
-    margin-top: 56px;
-    min-height: calc(100vh - 56px);
-    padding: 24px 16px;
+    height: 1000px;
     width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+
 }
 
 /* 入口列表 - 垂直堆叠 */
@@ -429,7 +426,6 @@ html, body {
     color: var(--text-secondary); 
     font-size: 1.2rem; 
     transition: all 0.2s;
-    margin-left: 12px;
 }
 
 .entry-card:hover .entry-arrow { color: var(--accent); transform: translateX(4px); }
@@ -529,4 +525,20 @@ html, body {
     .entry-title { font-size: 1.5rem; }
     .entry-desc { font-size: 1rem; }
     .entry-arrow { align-self: flex-end; margin-top: auto; margin-left: 0; }
+}
+
+/* 注入到 style.textContent 中 */
+:root {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+[data-theme="dark"] {
+  background-color: #1a1a1a;
+  color: #f5f5f5;
+  /* 补充深色模式下的面板/按钮样式，避免文字与背景融合 */
+}
+.bgPanel {
+  transition: background-color 0.3s ease;
+}
+[data-theme="dark"] .bgPanel {
+  background: rgba(30, 30, 30, 0.88);
 }
